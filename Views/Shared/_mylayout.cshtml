@@ -178,7 +178,6 @@
                             <a class="nav-link" href="@Url.Action("ViewProfile", "Profile")">Profile</a>
                         </li>
 
-                        <!-- قائمة الفئات (Categories) -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarCategoryDropdown" data-bs-toggle="dropdown">Categories</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarCategoryDropdown">
@@ -192,7 +191,6 @@
                             </ul>
                         </li>
 
-                        @* تظهر هذه الأزرار فقط للمستخدمين الذين لديهم دور Admin *@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("AddCategory", "Main")">Add Category</a></li>
@@ -212,7 +210,6 @@
                     }
                 </ul>
 
-                @* حساب عدد المنتجات في السلة *@
                 @{
                     var cart = Context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
                     var cartCount = cart.Count;
