@@ -70,9 +70,9 @@ namespace Online_Store.Repository
         public List<Product> GetPopularProducts(int count = 10)
         {
             return _context.Products
-                           .Where(p => p.SalesCount > 0)  // تصفية المنتجات التي لديها SalesCount أكبر من 0
-                           .OrderByDescending(p => p.SalesCount)  // ترتيب المنتجات من الأكثر مبيعًا إلى الأقل
-                           .Take(count)  // أخذ العدد المطلوب من المنتجات
+                           .Where(p => p.SalesCount > 0)  
+                           .OrderByDescending(p => p.SalesCount)  
+                           .Take(count)  
                            .ToList();
         }
 
