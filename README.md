@@ -1,6 +1,24 @@
 # 👗 Vogue Wave
 
-A full-featured e-commerce web application for a fashion store, built with **ASP.NET Core MVC (.NET 9)**. Users can browse products, manage their cart, and place orders — while admins manage the catalog and monitor orders. The project follows the **Repository & Interface design patterns** for clean, maintainable architecture.
+![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)
+![EF Core](https://img.shields.io/badge/EF%20Core-9-512BD4)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-LocalDB%20%2F%20Express-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+A full-featured e-commerce web application for a fashion store, built with **ASP.NET Core MVC (.NET 9)**. Customers browse products, manage a cart, and place orders, while admins manage the catalog and monitor orders. The project follows the **Repository & Interface design patterns** with Dependency Injection for a clean, maintainable architecture.
+
+---
+
+## 📌 Table of Contents
+
+- [Tech Stack](#-tech-stack)
+- [Features](#-features)
+- [Architecture](#️-architecture)
+- [Project Structure](#-project-structure)
+- [Getting Started](#️-getting-started)
+- [Roadmap](#️-roadmap)
+- [Contributing](#-contributing)
 
 ---
 
@@ -9,12 +27,54 @@ A full-featured e-commerce web application for a fashion store, built with **ASP
 | Technology | Purpose |
 |---|---|
 | [ASP.NET Core MVC](https://learn.microsoft.com/en-us/aspnet/core/mvc/) (.NET 9) | Web framework |
-| [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) v9 | ORM & database access |
+| [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) v9 (Code First) | ORM & database access |
 | [SQL Server](https://www.microsoft.com/en-us/sql-server) (LocalDB / Express) | Relational database |
 | [ASP.NET Core Identity](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity) | Authentication & authorization |
 | [MailKit](https://github.com/jstedfast/MailKit) | Email sending |
 | C# / Razor Views | Backend logic & HTML templating |
-| HTML, CSS, JavaScript | Frontend UI |
+| HTML, CSS, JavaScript, Bootstrap 5 | Responsive frontend UI |
+
+---
+
+## 🎯 Features
+
+### 🛍️ Customer
+- Browse products and filter by category
+- Add products to a session-based shopping cart
+- Place orders and track order status after checkout
+- Register, log in, and manage the profile (ASP.NET Core Identity)
+- Receive order confirmation emails (MailKit)
+- Contact page and blog section
+
+### 🛠️ Admin
+- Manage product listings (create, edit, delete)
+- Manage categories and users
+- View and manage customer orders
+- Role-based access control: only authenticated users can perform actions, and admin features are restricted to the Admin role
+
+### 🧪 Quality
+- Form validation and error handling
+- Responsive, mobile-friendly layout
+
+---
+
+## 🏗️ Architecture
+
+The project follows the **Repository Pattern** with interfaces to decouple data access from the controllers, and services are registered through ASP.NET Core's built-in dependency injection in `Program.cs`.
+
+```
+Controller → Interface → Repository → DbContext (EF Core) → SQL Server
+```
+
+| Principle | How it is applied |
+|---|---|
+| **MVC** | Clear separation between models, views, and controllers |
+| **Repository & Interfaces** | `IProductRepository`, `IOrderRepository`, and others hide EF Core from the controllers |
+| **Dependency Injection** | Interfaces are bound to implementations in `Program.cs` |
+| **Separation of Concerns** | Controllers, ViewModels, interfaces, and repositories each have one job |
+| **Code First** | The database schema is generated from the models with EF Core migrations |
+
+This makes the codebase easier to test, maintain, and extend.
 
 ---
 
@@ -22,10 +82,10 @@ A full-featured e-commerce web application for a fashion store, built with **ASP
 
 ```
 Vogue-Wave/
-├── Controllers/         # MVC Controllers (Products, Cart, Orders, Admin...)
-├── Models/              # Entity models (Product, Order, ApplicationUser...)
+├── Controllers/         # MVC controllers (Products, Cart, Orders, Admin, ...)
+├── Models/              # Entity models (Product, Order, ApplicationUser, ...)
 ├── Views/               # Razor view templates
-├── Interface/           # Repository interfaces (IProductRepository, IOrderRepository...)
+├── Interface/           # Repository interfaces (IProductRepository, IOrderRepository, ...)
 ├── Repository/          # Concrete repository implementations
 ├── Migrations/          # EF Core database migrations
 ├── wwwroot/             # Static files (CSS, JS, images)
@@ -37,34 +97,23 @@ Vogue-Wave/
 
 ---
 
-## ⚙️ Prerequisites
+## ⚙️ Getting Started
 
-- **Visual Studio 2022** or later
+### Prerequisites
+
+- **Visual Studio 2022** or later (or any editor with the .NET CLI)
 - **.NET 9 SDK** — [Download here](https://dotnet.microsoft.com/download/dotnet/9.0)
 - **SQL Server LocalDB** or **SQL Server Express**
 
----
-
-## 🛠️ Installation
+### 1. Clone and restore
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/Amratef0/Vogue-Wave.git
 cd Vogue-Wave
-```
-
-```
-# 2. Open the solution in Visual Studio
-```
-
-```bash
-# 3. Restore NuGet packages (auto-restores on build, or manually)
 dotnet restore
 ```
 
----
-
-## 🔧 Configuration
+### 2. Configure the app
 
 Update `appsettings.json` with your connection string and email settings:
 
@@ -83,69 +132,43 @@ Update `appsettings.json` with your connection string and email settings:
 }
 ```
 
----
+> 🔒 **Keep secrets out of Git.** For Gmail, use an [App Password](https://support.google.com/accounts/answer/185833), and store it with [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) instead of committing it:
+>
+> ```bash
+> dotnet user-secrets set "MailSettings:SenderPassword" "your_app_password"
+> ```
 
-## 🗄️ Database Setup
+### 3. Create the database
 
-Run the following in **Package Manager Console** (Visual Studio):
+In **Package Manager Console** (Visual Studio):
 
 ```powershell
 Update-Database
 ```
 
-Or via the .NET CLI:
+Or with the .NET CLI:
 
 ```bash
 dotnet ef database update
 ```
 
----
-
-## ▶️ Running the App
+### 4. Run the app
 
 ```bash
 dotnet run
 ```
 
-Or press **F5** in Visual Studio. The app will be available at `https://localhost:5001`.
-
----
-
-## 🎯 Features
-
-**Customer**
-- Browse and search products by category
-- Add products to shopping cart
-- Place and track orders
-- Receive order confirmation emails via MailKit
-- Register / Login with ASP.NET Core Identity
-
-**Admin**
-- Manage product listings (Create, Edit, Delete)
-- View and manage customer orders
-- Role-based access control
-
----
-
-## 🏗️ Architecture
-
-The project follows the **Repository Pattern** with interfaces to decouple data access from business logic:
-
-```
-Controller → Interface → Repository → DbContext (EF Core) → SQL Server
-```
-
-This makes the codebase easier to test, maintain, and extend.
+Or press **F5** in Visual Studio. The app is available at `https://localhost:5001`.
 
 ---
 
 ## 🗺️ Roadmap
 
 - [x] Product browsing and cart
-- [x] Order placement
+- [x] Order placement and tracking
 - [x] Email notifications
-- [ ] Product search and filtering
-- [ ] User reviews and ratings system
+- [ ] Advanced product search
+- [ ] User reviews and ratings
 - [ ] Payment gateway integration
 
 ---
